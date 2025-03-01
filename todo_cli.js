@@ -152,39 +152,66 @@ function mainMenu() {
                         case 7: return [3 /*break*/, 13];
                         case 8: return [3 /*break*/, 14];
                     }
-                    return [3 /*break*/, 15];
+                    return [3 /*break*/, 16];
                 case 2: return [4 /*yield*/, addTodo()];
                 case 3:
                     _b.sent();
-                    return [3 /*break*/, 15];
+                    return [3 /*break*/, 16];
                 case 4: return [4 /*yield*/, completeTodo()];
                 case 5:
                     _b.sent();
-                    return [3 /*break*/, 15];
+                    return [3 /*break*/, 16];
                 case 6: return [4 /*yield*/, removeTodo()];
                 case 7:
                     _b.sent();
-                    return [3 /*break*/, 15];
+                    return [3 /*break*/, 16];
                 case 8:
                     todoList.listTodos();
-                    return [3 /*break*/, 15];
+                    return [3 /*break*/, 16];
                 case 9: return [4 /*yield*/, filterTodos()];
                 case 10:
                     _b.sent();
-                    return [3 /*break*/, 15];
+                    return [3 /*break*/, 16];
                 case 11: return [4 /*yield*/, updateTodo()];
                 case 12:
                     _b.sent();
-                    return [3 /*break*/, 15];
+                    return [3 /*break*/, 16];
                 case 13:
                     todoList.clearCompletedTodos();
-                    return [3 /*break*/, 15];
-                case 14:
-                    console.log("Goodbye! See you later");
-                    process.exit(0);
-                    _b.label = 15;
+                    return [3 /*break*/, 16];
+                case 14: return [4 /*yield*/, confirmExit()];
                 case 15:
+                    _b.sent();
+                    return [3 /*break*/, 16];
+                case 16:
                     mainMenu();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+function confirmExit() {
+    return __awaiter(this, void 0, void 0, function () {
+        var confirm;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, inquirer_1.default.prompt([
+                        {
+                            type: 'confirm',
+                            name: 'confirm',
+                            message: 'Are you sure you want to exit?',
+                            default: false,
+                        },
+                    ])];
+                case 1:
+                    confirm = (_a.sent()).confirm;
+                    if (confirm) {
+                        console.log('Goodbye! See you later.');
+                        process.exit(0);
+                    }
+                    else {
+                        mainMenu();
+                    }
                     return [2 /*return*/];
             }
         });

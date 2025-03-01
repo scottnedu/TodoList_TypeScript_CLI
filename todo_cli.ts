@@ -134,10 +134,28 @@ async function mainMenu() {
       todoList.clearCompletedTodos();
       break;
     case 8:
-      console.log(`Goodbye! See you later`);
-      process.exit(0);
+      await confirmExit();
+      break;
   }
   mainMenu();
+}
+
+async function confirmExit() {
+  const { confirm } = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'confirm',
+      message: 'Are you sure you want to exit?',
+      default: false,
+    },
+  ]);
+
+  if (confirm) {
+    console.log('Goodbye! See you later.');
+    process.exit(0);
+  } else {
+    mainMenu();
+  }
 }
 
 async function addTodo() {
@@ -224,7 +242,5 @@ async function updateTodo() {
   const newDueDateParsed = newDueDate ? new Date(newDueDate) : undefined;
   todoList.updateTodoTask(Number(id), newTask || undefined, newDueDateParsed);
 }
-
-
 
 mainMenu();
