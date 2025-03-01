@@ -14,6 +14,10 @@ class TodoList {
   private todos: TodoItemWithDueDate[] = [];
   private nextId: number = 1;
 
+  getTodoById(id: number): TodoItemWithDueDate | undefined {
+    return this.todos.find(todo => todo.id === id);
+  }
+
   addTodo(task: string, dueDate: Date): void {
     const newTodo: TodoItemWithDueDate = {
       id: this.nextId++,
@@ -140,24 +144,6 @@ async function mainMenu() {
   mainMenu();
 }
 
-async function confirmExit() {
-  const { confirm } = await inquirer.prompt([
-    {
-      type: 'confirm',
-      name: 'confirm',
-      message: 'Are you sure you want to exit?',
-      default: false,
-    },
-  ]);
-
-  if (confirm) {
-    console.log('Goodbye! See you later.');
-    process.exit(0);
-  } else {
-    mainMenu();
-  }
-}
-
 async function addTodo() {
   const { task, dueDate } = await inquirer.prompt([
     {
@@ -173,6 +159,8 @@ async function addTodo() {
   ]);
   todoList.addTodo(task, new Date(dueDate));
 }
+
+
 
 async function completeTodo() {
   const { id } = await inquirer.prompt([
@@ -222,12 +210,22 @@ async function removeTodo() {
   }
 
 async function updateTodo() {
-  const { id, newTask, newDueDate } = await inquirer.prompt([
+  const { id } = await inquirer.prompt([
     {
       type: 'input',
       name: 'id',
-      message: 'Enter the ID of the todo to update:',
+      message: 'Enter the ID of the todo to update:\n',
     },
+  ]);
+
+  const todo = todoList.getTodoById(Number(id));
+  if (!todo) {
+    console.log(`Todo with ID ${id} not found.`);
+    console.log('');
+    return;
+  }
+
+  const { newTask, newDueDate } = await inquirer.prompt([
     {
       type: 'input',
       name: 'newTask',
@@ -239,8 +237,28 @@ async function updateTodo() {
       message: 'Enter the new due date (YYYY-MM-DD, leave blank to keep current):',
     },
   ]);
-  const newDueDateParsed = newDueDate ? new Date(newDueDate) : undefined;
-  todoList.updateTodoTask(Number(id), newTask || undefined, newDueDateParsed);
+
+  todoList.updateTodoTask(Number(id), newTask || undefined, newDueDate ? new Date(newDueDate) : undefined);
+}
+
+console.log('');
+
+async function confirmExit() {
+  const { confirm } = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'confirm',
+      message: 'Are you sure you want to exit?',
+      default: false,
+    },
+  ]);
+
+  if (confirm) {
+    console.log('Goodbye! See you later.');
+    process.exit(0);
+  } else {
+    mainMenu();
+  }
 }
 
 mainMenu();

@@ -42,6 +42,9 @@ var TodoList = /** @class */ (function () {
         this.todos = [];
         this.nextId = 1;
     }
+    TodoList.prototype.getTodoById = function (id) {
+        return this.todos.find(function (todo) { return todo.id === id; });
+    };
     TodoList.prototype.addTodo = function (task, dueDate) {
         var newTodo = {
             id: this.nextId++,
@@ -190,33 +193,6 @@ function mainMenu() {
         });
     });
 }
-function confirmExit() {
-    return __awaiter(this, void 0, void 0, function () {
-        var confirm;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, inquirer_1.default.prompt([
-                        {
-                            type: 'confirm',
-                            name: 'confirm',
-                            message: 'Are you sure you want to exit?',
-                            default: false,
-                        },
-                    ])];
-                case 1:
-                    confirm = (_a.sent()).confirm;
-                    if (confirm) {
-                        console.log('Goodbye! See you later.');
-                        process.exit(0);
-                    }
-                    else {
-                        mainMenu();
-                    }
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
 function addTodo() {
     return __awaiter(this, void 0, void 0, function () {
         var _a, task, dueDate;
@@ -316,30 +292,67 @@ function filterTodos() {
 }
 function updateTodo() {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, id, newTask, newDueDate, newDueDateParsed;
+        var id, todo, _a, newTask, newDueDate;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0: return [4 /*yield*/, inquirer_1.default.prompt([
                         {
                             type: 'input',
                             name: 'id',
-                            message: 'Enter the ID of the todo to update:',
-                        },
-                        {
-                            type: 'input',
-                            name: 'newTask',
-                            message: 'Enter the new task (leave blank to keep current):',
-                        },
-                        {
-                            type: 'input',
-                            name: 'newDueDate',
-                            message: 'Enter the new due date (YYYY-MM-DD, leave blank to keep current):',
+                            message: 'Enter the ID of the todo to update:\n',
                         },
                     ])];
                 case 1:
-                    _a = _b.sent(), id = _a.id, newTask = _a.newTask, newDueDate = _a.newDueDate;
-                    newDueDateParsed = newDueDate ? new Date(newDueDate) : undefined;
-                    todoList.updateTodoTask(Number(id), newTask || undefined, newDueDateParsed);
+                    id = (_b.sent()).id;
+                    todo = todoList.getTodoById(Number(id));
+                    if (!todo) {
+                        console.log("Todo with ID ".concat(id, " not found."));
+                        console.log('');
+                        return [2 /*return*/];
+                    }
+                    return [4 /*yield*/, inquirer_1.default.prompt([
+                            {
+                                type: 'input',
+                                name: 'newTask',
+                                message: 'Enter the new task (leave blank to keep current):',
+                            },
+                            {
+                                type: 'input',
+                                name: 'newDueDate',
+                                message: 'Enter the new due date (YYYY-MM-DD, leave blank to keep current):',
+                            },
+                        ])];
+                case 2:
+                    _a = _b.sent(), newTask = _a.newTask, newDueDate = _a.newDueDate;
+                    todoList.updateTodoTask(Number(id), newTask || undefined, newDueDate ? new Date(newDueDate) : undefined);
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+console.log('');
+function confirmExit() {
+    return __awaiter(this, void 0, void 0, function () {
+        var confirm;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, inquirer_1.default.prompt([
+                        {
+                            type: 'confirm',
+                            name: 'confirm',
+                            message: 'Are you sure you want to exit?',
+                            default: false,
+                        },
+                    ])];
+                case 1:
+                    confirm = (_a.sent()).confirm;
+                    if (confirm) {
+                        console.log('Goodbye! See you later.');
+                        process.exit(0);
+                    }
+                    else {
+                        mainMenu();
+                    }
                     return [2 /*return*/];
             }
         });
