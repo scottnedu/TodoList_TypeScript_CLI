@@ -6,7 +6,7 @@
 
 1. **Add a Todo**: Add a new todo with a task and due date.
 
-2. **Complete a Todo**: Mark a todo as completed by its ID.
+2. **Complete a Todo**: Mark a todo as completed by its ID. If you are asked for the ID of a todo you want to complete, and you supply a wrong ID, its throws an error.
 
 3. **Remove a Todo**: Delete a todo by its ID.
 

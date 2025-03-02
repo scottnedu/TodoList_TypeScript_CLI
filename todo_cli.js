@@ -53,18 +53,25 @@ var TodoList = /** @class */ (function () {
             dueDate: dueDate,
         };
         this.todos.push(newTodo);
-        console.log('Todo added successfully!');
+        var greenText = '\x1b[32m';
+        var resetText = '\x1b[0m';
+        console.log('');
+        console.log("".concat(greenText, "Todo added successfully!").concat(resetText));
         console.log('');
     };
     TodoList.prototype.completeTodo = function (id) {
         var todo = this.todos.find(function (todo) { return todo.id === id; });
         if (todo) {
             todo.completed = true;
+            console.log('');
             console.log('Todo marked as completed ✅!');
             console.log('');
         }
         else {
-            console.log("Todo with ID ".concat(id, " not found."));
+            var redText = '\x1b[31m';
+            var resetText = '\x1b[0m';
+            console.log('');
+            console.log("".concat(redText, "Todo with ID ").concat(id, " not found.").concat(resetText));
             console.log('');
         }
     };
@@ -72,21 +79,33 @@ var TodoList = /** @class */ (function () {
         var initialLength = this.todos.length;
         this.todos = this.todos.filter(function (todo) { return todo.id !== id; });
         if (this.todos.length === initialLength) {
-            console.log("Todo with ID ".concat(id, " not found."));
+            var redText = '\x1b[31m';
+            var resetText = '\x1b[0m';
+            console.log('');
+            console.log("".concat(redText, "Todo with ID ").concat(id, " not found.").concat(resetText));
             console.log('');
         }
         else {
-            console.log('Todo removed successfully!');
+            var greenText = '\x1b[32m';
+            var resetText = '\x1b[0m';
+            console.log('');
+            console.log("".concat(greenText, "Todo removed successfully!").concat(resetText));
             console.log('');
         }
     };
     TodoList.prototype.listTodos = function () {
         if (this.todos.length === 0) {
-            console.log('No todos found.');
+            var redText = '\x1b[31m';
+            var resetText = '\x1b[0m';
+            console.log('');
+            console.log("".concat(redText, "No Todo's Found!").concat(resetText));
             console.log('');
         }
         else {
-            console.log('Your Todos:');
+            var greenText = '\x1b[32m';
+            var resetText = '\x1b[0m';
+            console.log('');
+            console.log("".concat(greenText, "Your Todo's: ").concat(resetText));
             console.log('');
             this.todos.forEach(function (todo) {
                 console.log("ID: ".concat(todo.id, ", Task: ").concat(todo.task, ", Completed: ").concat(todo.completed, ", Due Date: ").concat(todo.dueDate.toISOString().split('T')[0]));
@@ -104,17 +123,26 @@ var TodoList = /** @class */ (function () {
                 todo.task = newTask;
             if (newDueDate)
                 todo.dueDate = newDueDate;
-            console.log('Todo updated successfully!');
+            var greenText = '\x1b[32m';
+            var resetText = '\x1b[0m';
+            console.log('');
+            console.log("".concat(greenText, "Todo updated successfully").concat(resetText));
             console.log('');
         }
         else {
-            console.log("Todo with ID ".concat(id, " not found."));
+            var redText = '\x1b[31m';
+            var resetText = '\x1b[0m';
+            console.log('');
+            console.log("".concat(redText, "Todo with ID ").concat(id, " not found.").concat(resetText));
             console.log('');
         }
     };
     TodoList.prototype.clearCompletedTodos = function () {
         this.todos = this.todos.filter(function (todo) { return !todo.completed; });
-        console.log('Completed todos cleared!');
+        var greenText = '\x1b[32m';
+        var resetText = '\x1b[0m';
+        console.log('');
+        console.log("".concat(greenText, "Complete Todos cleared successfully").concat(resetText));
         console.log('');
     };
     return TodoList;
@@ -292,21 +320,24 @@ function filterTodos() {
 }
 function updateTodo() {
     return __awaiter(this, void 0, void 0, function () {
-        var id, todo, _a, newTask, newDueDate;
+        var id, todo, redText, resetText, _a, newTask, newDueDate;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0: return [4 /*yield*/, inquirer_1.default.prompt([
                         {
                             type: 'input',
                             name: 'id',
-                            message: 'Enter the ID of the todo to update:\n',
+                            message: 'Enter the ID of the todo to update:',
                         },
                     ])];
                 case 1:
                     id = (_b.sent()).id;
                     todo = todoList.getTodoById(Number(id));
                     if (!todo) {
-                        console.log("Todo with ID ".concat(id, " not found."));
+                        redText = '\x1b[31m';
+                        resetText = '\x1b[0m';
+                        console.log('');
+                        console.log("".concat(redText, "Todo with ID ").concat(id, " not found.").concat(resetText));
                         console.log('');
                         return [2 /*return*/];
                     }
@@ -330,7 +361,6 @@ function updateTodo() {
         });
     });
 }
-console.log('');
 function confirmExit() {
     return __awaiter(this, void 0, void 0, function () {
         var confirm;
@@ -347,7 +377,7 @@ function confirmExit() {
                 case 1:
                     confirm = (_a.sent()).confirm;
                     if (confirm) {
-                        console.log('Goodbye! See you later.');
+                        console.log("Goodbye! Please give me 10 nah, I have never had 10 before \uD83C\uDF7B \uD83E\uDD42 ");
                         process.exit(0);
                     }
                     else {

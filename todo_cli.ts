@@ -26,7 +26,10 @@ class TodoList {
       dueDate,
     };
     this.todos.push(newTodo);
-    console.log('Todo added successfully!');
+    const greenText = '\x1b[32m';
+    const resetText = '\x1b[0m';
+    console.log('');
+    console.log(`${greenText}Todo added successfully!${resetText}`);
     console.log('');
   }
 
@@ -34,10 +37,14 @@ class TodoList {
     const todo = this.todos.find(todo => todo.id === id);
     if (todo) {
       todo.completed = true;
+      console.log('');
       console.log('Todo marked as completed ✅!');
       console.log('');
     } else {
-      console.log(`Todo with ID ${id} not found.`);
+       const redText = '\x1b[31m';
+       const resetText = '\x1b[0m';
+      console.log('');
+      console.log(`${redText}Todo with ID ${id} not found.${resetText}`);
       console.log('');
     }
   }
@@ -46,20 +53,32 @@ class TodoList {
     const initialLength = this.todos.length;
     this.todos = this.todos.filter(todo => todo.id !== id);
     if (this.todos.length === initialLength) {
-      console.log(`Todo with ID ${id} not found.`);
+      const redText = '\x1b[31m';
+      const resetText = '\x1b[0m';
+      console.log('');
+      console.log(`${redText}Todo with ID ${id} not found.${resetText}`);
       console.log('');
     } else {
-      console.log('Todo removed successfully!');
+      const greenText = '\x1b[32m';
+      const resetText = '\x1b[0m';
+      console.log('');
+      console.log(`${greenText}Todo removed successfully!${resetText}`);
       console.log('');
     }
   }
 
    listTodos(): void {
     if (this.todos.length === 0) {
-      console.log('No todos found.');
+      const redText = '\x1b[31m';
+      const resetText = '\x1b[0m';
+      console.log('');
+      console.log(`${redText}No Todo's Found!${resetText}`);
       console.log('');
     } else {
-      console.log('Your Todos:');
+      const greenText = '\x1b[32m';
+      const resetText = '\x1b[0m';
+      console.log('');
+      console.log(`${greenText}Your Todo's: ${resetText}`);
       console.log('');
       this.todos.forEach(todo => {
         console.log(
@@ -79,17 +98,26 @@ class TodoList {
     if (todo) {
       if (newTask) todo.task = newTask;
       if (newDueDate) todo.dueDate = newDueDate;
-      console.log('Todo updated successfully!');
+      const greenText = '\x1b[32m';
+      const resetText = '\x1b[0m';
+      console.log('');
+      console.log(`${greenText}Todo updated successfully${resetText}`);
       console.log('');
     } else {
-      console.log(`Todo with ID ${id} not found.`);
+      const redText = '\x1b[31m';
+      const resetText = '\x1b[0m';
+      console.log('');
+      console.log(`${redText}Todo with ID ${id} not found.${resetText}`);
       console.log('');
     }
   }
 
   clearCompletedTodos(): void {
     this.todos = this.todos.filter(todo => !todo.completed);
-    console.log('Completed todos cleared!');
+    const greenText = '\x1b[32m';
+    const resetText = '\x1b[0m';
+    console.log('');
+    console.log(`${greenText}Complete Todos cleared successfully${resetText}`);
     console.log('');
   }
 }
@@ -214,17 +242,18 @@ async function updateTodo() {
     {
       type: 'input',
       name: 'id',
-      message: 'Enter the ID of the todo to update:\n',
+      message: 'Enter the ID of the todo to update:',
     },
   ]);
-
   const todo = todoList.getTodoById(Number(id));
   if (!todo) {
-    console.log(`Todo with ID ${id} not found.`);
+    const redText = '\x1b[31m';
+    const resetText = '\x1b[0m';
+    console.log('');
+    console.log(`${redText}Todo with ID ${id} not found.${resetText}`);
     console.log('');
     return;
   }
-
   const { newTask, newDueDate } = await inquirer.prompt([
     {
       type: 'input',
@@ -237,11 +266,8 @@ async function updateTodo() {
       message: 'Enter the new due date (YYYY-MM-DD, leave blank to keep current):',
     },
   ]);
-
   todoList.updateTodoTask(Number(id), newTask || undefined, newDueDate ? new Date(newDueDate) : undefined);
 }
-
-console.log('');
 
 async function confirmExit() {
   const { confirm } = await inquirer.prompt([
@@ -254,7 +280,7 @@ async function confirmExit() {
   ]);
 
   if (confirm) {
-    console.log('Goodbye! See you later.');
+    console.log(`Goodbye! Please give me 10 nah, I have never had 10 before 🍻 🥂 `);
     process.exit(0);
   } else {
     mainMenu();
