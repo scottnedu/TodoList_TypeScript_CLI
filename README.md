@@ -1,4 +1,4 @@
-# TodoList_TypeScript_CLI
+# TodoList_TypeScript_CLI.
 
 # A simple command-line todo list application built with TypeScript and Node.js. This app allows you to manage your todos directly from the terminal.
 

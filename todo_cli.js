@@ -64,7 +64,7 @@ var TodoList = /** @class */ (function () {
         if (todo) {
             todo.completed = true;
             console.log('');
-            console.log('Todo marked as completed ✅!');
+            console.log('Todo marked as completed✅!');
             console.log('');
         }
         else {

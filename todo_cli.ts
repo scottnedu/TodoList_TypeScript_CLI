@@ -38,7 +38,7 @@ class TodoList {
     if (todo) {
       todo.completed = true;
       console.log('');
-      console.log('Todo marked as completed ✅!');
+      console.log('Todo marked as completed✅!');
       console.log('');
     } else {
        const redText = '\x1b[31m';
