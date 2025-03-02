@@ -138,11 +138,20 @@ var TodoList = /** @class */ (function () {
         }
     };
     TodoList.prototype.clearCompletedTodos = function () {
+        var completedTodos = this.todos.filter(function (todo) { return todo.completed; });
+        if (completedTodos.length === 0) {
+            var redText = '\x1b[31m';
+            var resetText_1 = '\x1b[0m';
+            console.log('');
+            console.log("".concat(redText, "No completed todos to clear.").concat(resetText_1));
+            console.log('');
+            return;
+        }
         this.todos = this.todos.filter(function (todo) { return !todo.completed; });
         var greenText = '\x1b[32m';
         var resetText = '\x1b[0m';
         console.log('');
-        console.log("".concat(greenText, "Complete Todos cleared successfully").concat(resetText));
+        console.log("".concat(greenText, "Completed todos cleared successfully!").concat(resetText));
         console.log('');
     };
     return TodoList;
@@ -231,6 +240,16 @@ function addTodo() {
                             type: 'input',
                             name: 'task',
                             message: 'Enter the task:',
+                            validate: function (input) {
+                                if (typeof input !== 'string' || input.trim().length === 0) {
+                                    return 'Task cannot be empty. Please enter a valid task.';
+                                }
+                                var stringRegex = /^[A-Za-z\s.,!?']+$/;
+                                if (!stringRegex.test(input)) {
+                                    return 'Task must be a valid string (letters, spaces, and basic punctuation only).';
+                                }
+                                return true;
+                            },
                         },
                         {
                             type: 'input',
@@ -346,6 +365,16 @@ function updateTodo() {
                                 type: 'input',
                                 name: 'newTask',
                                 message: 'Enter the new task (leave blank to keep current):',
+                                validate: function (input) {
+                                    if (typeof input !== 'string' || input.trim().length === 0) {
+                                        return 'Task cannot be empty. Please enter a valid task.';
+                                    }
+                                    var stringRegex = /^[A-Za-z\s.,!?']+$/;
+                                    if (!stringRegex.test(input)) {
+                                        return 'Task must be a valid string (letters, spaces, and basic punctuation only).';
+                                    }
+                                    return true;
+                                },
                             },
                             {
                                 type: 'input',

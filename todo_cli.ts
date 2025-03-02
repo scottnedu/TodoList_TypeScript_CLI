@@ -113,11 +113,21 @@ class TodoList {
   }
 
   clearCompletedTodos(): void {
+    const completedTodos = this.todos.filter(todo => todo.completed);
+    if (completedTodos.length === 0) {
+      const redText = '\x1b[31m';
+      const resetText = '\x1b[0m';
+      console.log('');
+      console.log(`${redText}No completed todos to clear.${resetText}`);
+      console.log('');
+      return;
+    }
+  
     this.todos = this.todos.filter(todo => !todo.completed);
     const greenText = '\x1b[32m';
     const resetText = '\x1b[0m';
     console.log('');
-    console.log(`${greenText}Complete Todos cleared successfully${resetText}`);
+    console.log(`${greenText}Completed todos cleared successfully!${resetText}`);
     console.log('');
   }
 }
@@ -178,7 +188,18 @@ async function addTodo() {
       type: 'input',
       name: 'task',
       message: 'Enter the task:',
+      validate: (input) => {
+        if (typeof input !== 'string' || input.trim().length === 0) {
+          return 'Task cannot be empty. Please enter a valid task.';
+        }
+        const stringRegex = /^[A-Za-z\s.,!?']+$/;
+        if (!stringRegex.test(input)) {
+          return 'Task must be a valid string (letters, spaces, and basic punctuation only).';
+      }
+      return true;
+      },
     },
+
     {
       type: 'input',
       name: 'dueDate',
@@ -187,8 +208,6 @@ async function addTodo() {
   ]);
   todoList.addTodo(task, new Date(dueDate));
 }
-
-
 
 async function completeTodo() {
   const { id } = await inquirer.prompt([
@@ -259,11 +278,22 @@ async function updateTodo() {
       type: 'input',
       name: 'newTask',
       message: 'Enter the new task (leave blank to keep current):',
+      validate: (input) => {
+        if (typeof input !== 'string' || input.trim().length === 0) {
+          return 'Task cannot be empty. Please enter a valid task.';
+        }
+        const stringRegex = /^[A-Za-z\s.,!?']+$/;
+        if (!stringRegex.test(input)) {
+          return 'Task must be a valid string (letters, spaces, and basic punctuation only).';
+      }
+      return true;
+      },
     },
     {
       type: 'input',
       name: 'newDueDate',
       message: 'Enter the new due date (YYYY-MM-DD, leave blank to keep current):',
+      
     },
   ]);
   todoList.updateTodoTask(Number(id), newTask || undefined, newDueDate ? new Date(newDueDate) : undefined);
